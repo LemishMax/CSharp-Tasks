@@ -11,7 +11,7 @@ namespace Task_1
             double a;
             while (true)
             {
-                a = CheckInput(Console.ReadLine());
+                a = Input();
                 if (a != 0) {
                     break;
                 }
@@ -20,9 +20,9 @@ namespace Task_1
             }
 
             Console.Write("Введите значение b:");
-            var b = CheckInput(Console.ReadLine());
+            var b = Input();
             Console.Write("Введите значение c:");
-            var c = CheckInput(Console.ReadLine());
+            var c = Input();
             var d = Math.Pow(b, 2) - 4 * a * c;
             if (d < 0)
             {
@@ -43,11 +43,12 @@ namespace Task_1
             Console.ReadKey();
         }
 
-        private static double CheckInput(string s)
+        private static double Input()
         {
             double res;
             while (true)
             {
+                var s = Console.ReadLine();
                 if (double.TryParse(s, out res))
                 {
                     break;
