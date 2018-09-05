@@ -20,7 +20,7 @@ namespace Task_2
                 {
                     using (var sr = new StreamReader(path))
                     {
-                        var content = sr.ReadToEnd();
+                        var content = sr.ReadToEnd().ToLower();
                         var word = "";
                         foreach (var c in content)
                         {
