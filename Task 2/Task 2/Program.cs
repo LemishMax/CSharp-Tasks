@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Task_2
 {
@@ -17,22 +18,12 @@ namespace Task_2
                 var path = Path.Combine("textfiles/", name);
                 if (File.Exists(path))
                 {
-                    var content = File.ReadAllText(path).ToLower();
-                    var word = "";
-                    foreach (var c in content)
-                    {
-                        if (char.IsLetterOrDigit(c))
-                        {
-                            word += c;
-                        }
-                        else if (word.Length != 0 && (char.IsPunctuation(c) || char.IsWhiteSpace(c)))
-                        {
-                            uniqueWords.Add(word);
-                            word = "";
-                        }
-                    }
-
-                    if (word.Length != 0)
+                    var words = File.ReadAllText(path)
+                        .ToLower()
+                        .Where(x => !char.IsPunctuation(x))
+                        .Aggregate("", (s, c) => s + c)
+                        .Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); ;
+                    foreach (var word in words)
                     {
                         uniqueWords.Add(word);
                     }

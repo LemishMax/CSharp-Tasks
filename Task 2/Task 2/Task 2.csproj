@@ -55,8 +55,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="textfiles\test1.txt" />
-    <Content Include="textfiles\test2.txt" />
+    <Content Include="textfiles\test1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="textfiles\test2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
