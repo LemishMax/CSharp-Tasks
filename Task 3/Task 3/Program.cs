@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace Task_3
 {
@@ -97,7 +98,7 @@ namespace Task_3
                         {
                             var firstPolynomial = GetPolynomial();
                             var secondPolynomial = GetPolynomial();
-                            result = firstPolynomial.MultiplyByThePolynomial(secondPolynomial);
+                            result = firstPolynomial.Multiply(secondPolynomial);
                             Console.WriteLine($"\n{firstPolynomial} * {secondPolynomial} = {result}");
                             AddToList(result);
                         }
@@ -114,7 +115,7 @@ namespace Task_3
                             var firstPolynomial = GetPolynomial();
                             Console.Write("Введите множитель: ");
                             var multiplier = CorrectInput();
-                            result = firstPolynomial.MultiplyByTheNumber(multiplier);
+                            result = firstPolynomial.Multiply(multiplier);
                             Console.WriteLine($"\n{firstPolynomial} * {multiplier} = {result}");
                             AddToList(result);
                         }

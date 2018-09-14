@@ -8,6 +8,39 @@ namespace Task_3
     {
         private readonly List<double> _coefficients;
 
+        public static Polynomial operator +(Polynomial p1, Polynomial p2)
+        {
+            return p1.Add(p2);
+        }
+
+        public static Polynomial operator -(Polynomial p1, Polynomial p2)
+        {
+            return p1.Subtract(p2);
+        }
+
+        public static bool operator ==(Polynomial p1, Polynomial p2)
+        {
+            if (p1?._coefficients == p2?._coefficients)
+            {
+                return true;
+            }
+
+            var lessCoefficients =
+                p1._coefficients.Count <= p2._coefficients.Count ? p1._coefficients : p2._coefficients;
+            var moreCoefficients =
+                p1._coefficients.Count > p2._coefficients.Count ? p1._coefficients : p2._coefficients;
+            for (var i = lessCoefficients.Count; i < moreCoefficients.Count; i++)
+            {
+                lessCoefficients.Add(0.0);
+            }
+            return lessCoefficients.SequenceEqual(moreCoefficients);
+        }
+
+        public static bool operator !=(Polynomial p1, Polynomial p2)
+        {
+            return !(p1 == p2);
+        }
+
         public Polynomial(IEnumerable<double> coefficients)
         {
             _coefficients = coefficients.ToList();
@@ -50,11 +83,51 @@ namespace Task_3
                 }
                 else
                 {
-                    coefficients.Add(maxDegree.ElementAt(i));
+                    
+                    coefficients.Add(maxDegree==subtrahend._coefficients?-maxDegree.ElementAt(i):maxDegree.ElementAt(i));
                 }
             }
 
             return new Polynomial(coefficients);
+        }
+
+        public Polynomial Multiply(double multiplier)
+        {
+            var coefficients = new List<double>();
+            if (multiplier != 0)
+            {
+                foreach (var d in _coefficients)
+                {
+                    coefficients.Add(d * multiplier);
+                }
+            }
+
+            return new Polynomial(coefficients);
+        }
+
+        public Polynomial Multiply(Polynomial polynomial)
+        {
+            var coefficients = new List<double>();
+            for (var i = 0; i < _coefficients.Count; i++)
+            {
+                for (var j = 0; j < polynomial._coefficients.Count; j++)
+                {
+                    if (coefficients.Count <= i + j)
+                    {
+                        coefficients.Add(_coefficients.ElementAt(i) * polynomial._coefficients.ElementAt(j));
+                    }
+                    else
+                    {
+                        coefficients[i + j] += _coefficients.ElementAt(i) * polynomial._coefficients.ElementAt(j);
+                    }
+                }
+            }
+
+            return new Polynomial(coefficients);
+        }
+        public double ValueAtThePoint(double point)
+        {
+            return _coefficients.Select((x, i) => _coefficients.ElementAt(i) * Math.Pow(point, i)).Sum();
         }
 
         public double RootFinding(double startInterval, double endInterval, double epsilon)
@@ -75,46 +148,6 @@ namespace Task_3
 
             root = (startInterval + endInterval) / 2;
             return root;
-        }
-
-        public double ValueAtThePoint(double point)
-        {
-            return _coefficients.Select((x, i) => _coefficients.ElementAt(i) * Math.Pow(point, i)).Sum();
-        }
-
-        public Polynomial MultiplyByTheNumber(double multiplier)
-        {
-            var coefficients = new List<double>();
-            if (multiplier != 0)
-            {
-                foreach (var d in _coefficients)
-                {
-                    coefficients.Add(d * multiplier);
-                }
-            }
-
-            return new Polynomial(coefficients);
-        }
-
-        public Polynomial MultiplyByThePolynomial(Polynomial polynomial)
-        {
-            var coefficients = new List<double>();
-            for (var i = 0; i < _coefficients.Count; i++)
-            {
-                for (var j = 0; j < polynomial._coefficients.Count; j++)
-                {
-                    if (coefficients.Count <= i + j)
-                    {
-                        coefficients.Add(_coefficients.ElementAt(i) * polynomial._coefficients.ElementAt(j));
-                    }
-                    else
-                    {
-                        coefficients[i + j] += _coefficients.ElementAt(i) * polynomial._coefficients.ElementAt(j);
-                    }
-                }
-            }
-
-            return new Polynomial(coefficients);
         }
 
         public override string ToString()
@@ -143,6 +176,21 @@ namespace Task_3
 
             return polynomial;
         }
+        public override int GetHashCode()
+        {
+            return _coefficients != null ? _coefficients.GetHashCode() : 0;
+        }
 
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals((Polynomial)obj);
+        }
+
+        protected bool Equals(Polynomial other)
+        {
+            return this == other;
+        }
     }
 }
