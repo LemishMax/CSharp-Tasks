@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Task_3
+namespace Task_3.Functions
 {
+    /// <inheritdoc />
     /// <summary>
     /// Этот класс используется для работы с многочленом.
     /// </summary>
-    public class Polynomial
+    public class Polynomial : Function
     {
         private readonly List<double> _coefficients;
 
         /// <summary>
-        /// Перезагрузка оператора +.
+        /// Переопределение оператора +.
         /// </summary>
         /// <param name="p1">Первый многочлен.</param>
         /// <param name="p2">Второй многочлен.</param>
@@ -23,7 +24,7 @@ namespace Task_3
         }
 
         /// <summary>
-        /// Перезагрузка оператора -.
+        /// Переопределение оператора -.
         /// </summary>
         /// <param name="p1">Первый многочлен.</param>
         /// <param name="p2">Второй многочлен.</param>
@@ -34,35 +35,26 @@ namespace Task_3
         }
 
         /// <summary>
-        /// Перезагрузка оператора ==.
+        /// Переопределение оператора ==.
         /// </summary>
         /// <param name="p1">Первый многочлен.</param>
         /// <param name="p2">Второй многочлен.</param>
         /// <returns>Сравнивает два многочлена, если соотвестующие коэффициенты равны возвращает true, иначе - false.</returns>
-        public static bool operator ==(Polynomial p1, Polynomial p2)
-        {
-            return p1.Equals(p2);
-        }
+        public static bool operator ==(Polynomial p1, Polynomial p2) => p1.Equals(p2);
 
         /// <summary>
-        /// Перезагрузка оператора !=.
+        /// Переопределение оператора !=.
         /// </summary>
         /// <param name="p1">Первый многочлен.</param>
         /// <param name="p2">Второй многочлен.</param>
         /// <returns>Сравнивает два многочлена, если соотвестующие коэффициенты равны возвращает false, иначе - true.</returns>
-        public static bool operator !=(Polynomial p1, Polynomial p2)
-        {
-            return !(p1 == p2);
-        }
+        public static bool operator !=(Polynomial p1, Polynomial p2) => !p1.Equals(p2);
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Polynomial"/>.
         /// </summary>
         /// <param name="coefficients">Принимает список коэффициентов.</param>
-        public Polynomial(IEnumerable<double> coefficients)
-        {
-            _coefficients = coefficients.ToList();
-        }
+        public Polynomial(IEnumerable<double> coefficients) => _coefficients = coefficients.ToList();
 
         /// <summary>
         /// Сложение двух многочленов.
@@ -73,18 +65,18 @@ namespace Task_3
         {
             var coefficients = new List<double>();
             var minDegree = Math.Min(_coefficients.Count, summand._coefficients.Count);
-            var maxDegree = _coefficients.Count > summand._coefficients.Count
+            var polynomialWithGreaterDegree = _coefficients.Count > summand._coefficients.Count
                 ? _coefficients
                 : summand._coefficients;
-            for (var i = 0; i < maxDegree.Count; i++)
+            for (var i = 0; i < polynomialWithGreaterDegree.Count; i++)
             {
                 if (i < minDegree)
                 {
-                    coefficients.Add(_coefficients.ElementAt(i) + summand._coefficients.ElementAt(i));
+                    coefficients.Add(_coefficients[i] + summand._coefficients[i]);
                 }
                 else
                 {
-                    coefficients.Add(maxDegree.ElementAt(i));
+                    coefficients.Add(polynomialWithGreaterDegree[i]);
                 }
             }
 
@@ -100,19 +92,20 @@ namespace Task_3
         {
             var coefficients = new List<double>();
             var minDegree = Math.Min(_coefficients.Count, subtrahend._coefficients.Count);
-            var maxDegree = _coefficients.Count > subtrahend._coefficients.Count
+            var polynomialWithGreaterDegree = _coefficients.Count > subtrahend._coefficients.Count
                 ? _coefficients
                 : subtrahend._coefficients;
-            for (var i = 0; i < maxDegree.Count; i++)
+            for (var i = 0; i < polynomialWithGreaterDegree.Count; i++)
             {
                 if (i < minDegree)
                 {
-                    coefficients.Add(_coefficients.ElementAt(i) - subtrahend._coefficients.ElementAt(i));
+                    coefficients.Add(_coefficients[i] - subtrahend._coefficients[i]);
                 }
                 else
                 {
-
-                    coefficients.Add(maxDegree == subtrahend._coefficients ? -maxDegree.ElementAt(i) : maxDegree.ElementAt(i));
+                    coefficients.Add(polynomialWithGreaterDegree == subtrahend._coefficients
+                        ? -polynomialWithGreaterDegree.ElementAt(i)
+                        : polynomialWithGreaterDegree.ElementAt(i));
                 }
             }
 
@@ -124,19 +117,9 @@ namespace Task_3
         /// </summary>
         /// <param name="multiplier">Множитель.</param>
         /// <returns>Возвращает новый многочлен основанный на умножении коэффициентов на заданный множитель.</returns>
-        public Polynomial Multiply(double multiplier)
-        {
-            var coefficients = new List<double>();
-            if (multiplier != 0)
-            {
-                foreach (var d in _coefficients)
-                {
-                    coefficients.Add(d * multiplier);
-                }
-            }
-
-            return new Polynomial(coefficients);
-        }
+        public Polynomial Multiply(double multiplier) => multiplier == 0
+            ? new Polynomial(new List<double>())
+            : new Polynomial(_coefficients.Select(x => x * multiplier).ToList());
 
         /// <summary>
         /// Умножение многочлена на многочлен.
@@ -152,26 +135,16 @@ namespace Task_3
                 {
                     if (coefficients.Count <= i + j)
                     {
-                        coefficients.Add(_coefficients.ElementAt(i) * polynomial._coefficients.ElementAt(j));
+                        coefficients.Add(_coefficients[i] * polynomial._coefficients[j]);
                     }
                     else
                     {
-                        coefficients[i + j] += _coefficients.ElementAt(i) * polynomial._coefficients.ElementAt(j);
+                        coefficients[i + j] += _coefficients[i] * polynomial._coefficients[j];
                     }
                 }
             }
 
             return new Polynomial(coefficients);
-        }
-
-        /// <summary>
-        /// Вычисляет значение многочлена в заданной точке.
-        /// </summary>
-        /// <param name="point">Точка.</param>
-        /// <returns>Возвращает значение многочлена в заданной точке.</returns>
-        public double ValueAtThePoint(double point)
-        {
-            return _coefficients.Select((x, i) => _coefficients.ElementAt(i) * Math.Pow(point, i)).Sum();
         }
 
         /// <summary>
@@ -181,13 +154,13 @@ namespace Task_3
         /// <param name="endInterval">Конец интервала.</param>
         /// <param name="epsilon">Эпсилон.</param>
         /// <returns>Возвращает корень многочлена на заданном промежутке.</returns>
-        public double RootFinding(double startInterval, double endInterval, double epsilon)
+        public double FindRoot(double startInterval, double endInterval, double epsilon)
         {
             double root;
             while (endInterval - startInterval > epsilon)
             {
                 root = (startInterval + endInterval) / 2;
-                if (ValueAtThePoint(startInterval) * ValueAtThePoint(root) <= 0)
+                if (ValueAtPoint(startInterval) * ValueAtPoint(root) <= 0)
                 {
                     endInterval = root;
                 }
@@ -201,37 +174,59 @@ namespace Task_3
             return root;
         }
 
-        /// <summary>
-        /// Возращает <see cref="System.String" /> которая представляет этот экземпляр.
-        /// </summary>
-        /// <returns><see cref="System.String" /> которая представляет этот экземпляр.</returns>
+        /// <inheritdoc />
+        public override double ValueAtPoint(double point) => _coefficients.Select((x, i) => _coefficients[i] * Math.Pow(point, i)).Sum();
+
+        /// <inheritdoc />
+        public override Function Derivative()
+        {
+            var coefficients = new List<double>();
+            for (var i = 1; i < _coefficients.Count; i++)
+            {
+                coefficients.Add(_coefficients[i] * i);
+            }
+
+            return new Polynomial(coefficients);
+        }
+
+        /// <inheritdoc />
         public override string ToString()
         {
             var polynomial = "";
             for (var i = _coefficients.Count - 1; i >= 0; i--)
             {
-                if (i != _coefficients.Count - 1 && _coefficients.ElementAt(i) > 0.0)
+                if (i != _coefficients.Count - 1 && _coefficients[i] > 0.0)
                 {
                     polynomial += "+";
                 }
 
-                if (_coefficients.ElementAt(i) != 0 && (_coefficients.ElementAt(i) != 1 || i == 0))
+                if (_coefficients[i] != 0 && (_coefficients[i] != 1 || i == 0))
                 {
-                    polynomial += _coefficients.ElementAt(i) == -1
+                    polynomial += _coefficients[i] == -1
                         ? "-"
-                        : _coefficients.ElementAt(i).ToString();
-                    polynomial += i == 0 && _coefficients.ElementAt(i) == -1 ? "1" : "";
+                        : _coefficients[i].ToString();
+                    polynomial += i == 0 && _coefficients[i] == -1 ? "1" : "";
                 }
 
-                if (_coefficients.ElementAt(i) != 0 && i > 0)
+                if (_coefficients[i] != 0 && i > 0)
                 {
-                    polynomial += "x" + ((i > 1) ? "^" + i : string.Empty);
+                    polynomial += "x" + (i > 1 ? "^" + i : string.Empty);
                 }
             }
 
             return polynomial;
         }
 
+        /// <summary>
+        /// Получение степени многочлена.
+        /// </summary>
+        /// <returns>Возвращает степень многочлена.</returns>
+        public int GetDegree()
+        {
+            return _coefficients.Count <= 1 ? 0 : _coefficients.Count - 1;
+        }
+
+        /// <inheritdoc />
         /// <summary>
         /// Возвращает хэш-код для этого экземпляра.
         /// </summary>
@@ -241,17 +236,14 @@ namespace Task_3
             return _coefficients != null ? _coefficients.GetHashCode() : 0;
         }
 
+
+        /// <inheritdoc />
         /// <summary>
-        /// Определяет, соответствует ли указанный экземпляр <see cref = "System.Object" /> этому экземпляру.
+        /// Определяет, соответствует ли указанный экземпляр <see cref="T:System.Object" /> этому экземпляру.
         /// </summary>
         /// <param name="obj">Объект для сравнения с текущим объектом.</param>
-        /// <returns><c>true</c>если указанный <see cref = "System.Object" /> равен этому экземпляру; в противном случае, <c>false</c>.</returns>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Polynomial)obj);
-        }
+        /// <returns><c>true</c>если указанный <see cref="T:System.Object" /> равен этому экземпляру; в противном случае, <c>false</c>.</returns>
+        public override bool Equals(object obj) => obj != null && (obj.GetType() == GetType() && Equals((Polynomial)obj));
 
         /// <summary>
         /// Сравнивает два многочлена, если соотвестующие коэффициенты равны возвращает true, иначе - false.
