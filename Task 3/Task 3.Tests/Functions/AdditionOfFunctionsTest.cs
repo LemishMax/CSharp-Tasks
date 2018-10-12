@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Task_3.Functions;
+
 namespace Task_3.Tests.Functions
 {
     class AdditionOfFunctionsTest

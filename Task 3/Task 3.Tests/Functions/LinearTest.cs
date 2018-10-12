@@ -45,6 +45,7 @@ namespace Task_3.Tests.Functions
             const string expectedResult = "7x";
             Assert.AreEqual(expectedResult, l1.ToString());
         }
+
         [Test]
         public void ToString_BEqualsMinus6_CorrectResultReturned()
         {

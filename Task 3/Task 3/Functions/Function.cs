@@ -1,5 +1,7 @@
 ﻿namespace Task_3.Functions
 {
+    using FunctionStorages;
+
     /// <summary>
     /// Этот класс используется для работы с математическими функциями.
     /// </summary>
@@ -34,6 +36,8 @@
         /// <returns>Возвращает значение функции в заданной точке.</returns>
         public abstract double ValueAtPoint(double point);
 
+        public abstract void ResolveReferences(IReferenceResolver referenceResolver);
+
         /// <summary>
         /// Возращает <see cref="System.String" /> которая представляет этот экземпляр.
         /// </summary>
@@ -52,5 +56,6 @@
         /// </summary>
         /// <returns>Хэш-код для этого экземпляра, подходящий для использования в хэширующих алгоритмах и структурах данных, таких как хеш-таблица</returns>
         public abstract override int GetHashCode();
+
     }
 }

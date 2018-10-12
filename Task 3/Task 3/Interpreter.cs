@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Task_3.CommandBuilders;
-using Task_3.FunctionStorages;
-
-namespace Task_3
+﻿namespace Task_3
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using CommandBuilders;
+    using FunctionStorages;
+
     /// <summary>
     /// Данный класс парсит пользовательский ввод и применяет его к хранилищу
     /// </summary>
@@ -34,7 +34,9 @@ namespace Task_3
         public string Parse(string s)
         {
             var builder = _commands.FirstOrDefault(x => Regex.IsMatch(s, x.Key)).Value;
-            return builder == null ? "Команда не найдена" : builder.Build(s)?.Execute(_functionStorage);
+            return builder == null
+                ? "Команда не найдена"
+                : builder.Build(s)?.Execute(_functionStorage).Message;
         }
     }
 }

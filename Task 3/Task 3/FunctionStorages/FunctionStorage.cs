@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Task_3.Functions;
-
-namespace Task_3.FunctionStorages
+﻿namespace Task_3.FunctionStorages
 {
+    using System;
+    using System.Collections.Generic;
+    using Functions;
+    using Newtonsoft.Json;
+
     /// <inheritdoc />
     /// <summary>
     /// Этот класс работает с хранилищем функций
     /// </summary>
     public class FunctionStorage : IFunctionStorage
     {
+        [JsonProperty]
         private readonly Dictionary<string, Function> _functions = new Dictionary<string, Function>();
 
         /// <inheritdoc />
@@ -100,6 +102,7 @@ namespace Task_3.FunctionStorages
             return _functions[name].Derivative();
         }
         
+
         /// <inheritdoc />
         /// <summary>
         /// Проверяет хранится ли функция в хранилище
@@ -109,6 +112,22 @@ namespace Task_3.FunctionStorages
         public bool IsStored(string name)
         {
             return _functions.ContainsKey(name);
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Возвращает функцию по ее названию
+        /// </summary>
+        /// <param name="name">Название функции</param>
+        /// <returns>Возвращает функцию по ее названию</returns>
+        public Function GetFunction(string name)
+        {
+            if (!IsStored(name))
+            {
+                throw new Exception($"Функция {name} отсутствует в хранилище");
+            }
+
+            return _functions[name];
         }
     }
 }

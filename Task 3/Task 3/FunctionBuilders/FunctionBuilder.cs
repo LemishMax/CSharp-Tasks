@@ -1,7 +1,7 @@
-﻿using Task_3.Functions;
-
-namespace Task_3.FunctionBuilders
+﻿namespace Task_3.FunctionBuilders
 {
+    using Functions;
+
     /// <summary>
     /// Данный класс создает объекты класса <c>Function</c>
     /// </summary>

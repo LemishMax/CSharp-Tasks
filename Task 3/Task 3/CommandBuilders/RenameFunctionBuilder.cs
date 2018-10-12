@@ -1,13 +1,13 @@
-﻿using Task_3.Commands;
-
-namespace Task_3.CommandBuilders
+﻿namespace Task_3.CommandBuilders
 {
-    internal class RenameFunctionBuilder:CommandBuilder
+    using Commands;
+
+    internal class RenameFunctionBuilder : CommandBuilder
     {
         public override ICommand Build(string line)
         {
             var names = line.Split(' ');
-            return new RenameFunction(oldName: names[1], newName: names[2]);
+            return new RenameFunction(names[1], names[2]);
         }
     }
 }

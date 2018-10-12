@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Task_3.Functions;
-
-namespace Task_3.FunctionBuilders
+﻿namespace Task_3.FunctionBuilders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using Functions;
+
     internal class PolynomialBuilder : FunctionBuilder
     {
         public override Function Build(string s)
@@ -33,7 +33,7 @@ namespace Task_3.FunctionBuilders
                     }
 
                     values[1] = values[1].Contains('^') ? values[1].Substring(1) : values[1];
-                    degree = values[1] == "" ? 1 : Convert.ToInt16(values[1]);
+                    degree = values[1] == string.Empty ? 1 : Convert.ToInt16(values[1]);
                 }
                 else
                 {

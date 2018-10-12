@@ -37,11 +37,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -54,16 +58,23 @@
     <Compile Include="CommandBuilders\RenameFunctionBuilder.cs" />
     <Compile Include="CommandBuilders\ValueFunctionBuilder.cs" />
     <Compile Include="Commands\AddInStorage.cs" />
+    <Compile Include="Commands\BuildersOfCommandsForFunctionStorage.cs" />
     <Compile Include="Commands\DeleteFromStorage.cs" />
     <Compile Include="Commands\DerivativeOfTheFunction.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\RenameFunction.cs" />
+    <Compile Include="Commands\ResultOfCommand.cs" />
     <Compile Include="FunctionBuilders\AdditionOfFunctionsBuilder.cs" />
     <Compile Include="FunctionBuilders\FunctionCompositionBuilder.cs" />
+    <Compile Include="FunctionBuilders\ReferenceFunctionBuilder.cs" />
     <Compile Include="FunctionBuilders\SubtractionOfFunctionsBuilder.cs" />
     <Compile Include="FunctionBuilders\UnaryMinusOfFunctionBuilder.cs" />
+    <Compile Include="FunctionStorages\FunctionStorageDecorator.cs" />
+    <Compile Include="FunctionStorages\IReferenceResolver.cs" />
+    <Compile Include="FunctionStorages\ReferenceResolver.cs" />
     <Compile Include="Functions\AdditionOfFunctions.cs" />
     <Compile Include="Functions\FunctionComposition.cs" />
+    <Compile Include="Functions\ReferenceFunction.cs" />
     <Compile Include="Functions\SubtractionOfFunctions.cs" />
     <Compile Include="Functions\UnaryMinusOfFunction.cs" />
     <Compile Include="Commands\ValueFunction.cs" />
@@ -80,12 +91,15 @@
     <Compile Include="Functions\Sin.cs" />
     <Compile Include="Functions\Polynomial.cs" />
     <Compile Include="Interpreter.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

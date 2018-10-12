@@ -1,8 +1,8 @@
-﻿using Task_3.Functions;
-using Task_3.FunctionStorages;
-
-namespace Task_3.Commands
+﻿namespace Task_3.Commands
 {
+    using Functions;
+    using FunctionStorages;
+
     /// <inheritdoc />
     /// <summary>
     /// Данный класс управляет методом добавления функции в хранилище
@@ -30,15 +30,17 @@ namespace Task_3.Commands
         /// </summary>
         /// <param name="fs">Храенилище функций</param>
         /// <returns>Возвращает результат работы команды</returns>
-        public string Execute(IFunctionStorage fs)
+        public ResultOfCommand Execute(IFunctionStorage fs)
         {
             if (fs.IsStored(_name))
             {
-                return $"{_name} уже используется";
+                return new ResultOfCommand(false, $"{_name} уже используется");
             }
 
+            _function.ResolveReferences(new ReferenceResolver(fs));
+
             fs.Add(_name, _function);
-            return "Функция добавлена";
+            return new ResultOfCommand(true, "Функция добавлена");
         }
     }
 }

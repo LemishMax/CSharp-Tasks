@@ -1,34 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using Task_3.CommandBuilders;
-using Task_3.FunctionStorages;
-
-namespace Task_3
+﻿namespace Task_3
 {
+    using System;
+    using System.IO;
+    using Commands;
+    using FunctionStorages;
+
     /// <summary>
     /// Основной класс.
     /// </summary>
     public class Program
     {
+        private const string Json = @"FunctionsStorage.json";
+
         private static void Main()
         {
-            var commands = new Dictionary<string, CommandBuilder>
+            Console.WriteLine("Данная программа работает с математическими функциями. Более подробно можно ознакомиться в файле README.MD.\n" +
+            "Чтобы сохранить функции введите ‘s’;\n" +
+            "Чтобы завершить программу с сохранением введите ‘exit’;");
+            Logger.InitLogger();
+            var serializer = new Serializer();
+            if (!File.Exists(Json))
             {
-                {"^[A|a]dd \\w+", new AddInStorageBuilder()},
-                {"^[D|d]elete \\w+", new DeleteFromStorageBuilder()},
-                {"^[R|r]ename \\w+ \\w+", new RenameFunctionBuilder()},
-                {"^\\w+\\(-?[0-9]+(,[0-9]+)?\\)", new ValueFunctionBuilder()},
-                {"^[D|d]erivative \\w+", new DerivativeOfTheFunctionBuilder()}
-            };
+                File.Create(Json);
+            }
 
-            var fs = new FunctionStorage();
-            var interpreter = new Interpreter(fs, commands);
-            var command = "";
+            var functionStorage = new FunctionStorageDecorator(serializer.Deserialize(File.ReadAllText(Json)));
+
+            var interpreter = new Interpreter(functionStorage, new BuildersOfCommandsForFunctionStorage().GetBuilders());
+
+            var command = string.Empty;
+            new System.Threading.Timer(
+               e => { File.WriteAllText(Json, serializer.Serialize(functionStorage.GetFunctionStorage())); }, null, TimeSpan.Zero, TimeSpan.FromMinutes(3));
             while (command != "exit")
             {
                 command = Console.ReadLine();
-                Console.WriteLine(interpreter.Parse(command));
+                if (command == "s")
+                {
+                    File.WriteAllText(Json, serializer.Serialize(functionStorage.GetFunctionStorage()));
+                    Console.WriteLine("Функции сохранены");
+                }
+                else
+                {
+                    Console.WriteLine(interpreter.Parse(command));
+                }
             }
+
+            File.WriteAllText(Json, serializer.Serialize(functionStorage.GetFunctionStorage()));
         }
     }
 }

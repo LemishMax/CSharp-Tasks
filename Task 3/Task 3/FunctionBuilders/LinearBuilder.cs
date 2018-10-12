@@ -1,8 +1,8 @@
-﻿using System;
-using Task_3.Functions;
-
-namespace Task_3.FunctionBuilders
+﻿namespace Task_3.FunctionBuilders
 {
+    using System;
+    using Functions;
+
     internal class LinearBuilder : FunctionBuilder
     {
         public override Function Build(string s)
@@ -21,7 +21,8 @@ namespace Task_3.FunctionBuilders
                     k = Convert.ToDouble(z[0]);
                     break;
             }
-            var b = z[1] == "" ? 0 : Convert.ToDouble(z[1]);
+
+            var b = z[1] == string.Empty ? 0 : Convert.ToDouble(z[1]);
             return new Linear(k, b);
         }
     }

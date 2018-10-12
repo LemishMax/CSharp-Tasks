@@ -1,7 +1,7 @@
-﻿using Task_3.FunctionStorages;
+﻿namespace Task_3.Commands
+{
+    using FunctionStorages;
 
-namespace Task_3.Commands
-{   
     /// <inheritdoc />
     /// <summary>
     /// Данный класс управляет методом удаления функции из хранилища
@@ -25,15 +25,15 @@ namespace Task_3.Commands
         /// </summary>
         /// <param name="fs">Хранилище функций</param>
         /// <returns>Возвращает результат работы команды</returns>
-        public string Execute(IFunctionStorage fs)
+        public ResultOfCommand Execute(IFunctionStorage fs)
         {
             if (!fs.IsStored(_name))
             {
-                return $"{_name} не найдена";
+                return new ResultOfCommand(false, $"{_name} не найдена");
             }
 
             fs.Delete(_name);
-            return "Функция удалена";
+            return new ResultOfCommand(true, "Функция удалена");
         }
     }
 }

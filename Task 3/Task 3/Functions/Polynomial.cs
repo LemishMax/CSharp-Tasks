@@ -1,16 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Task_3.Functions
+﻿namespace Task_3.Functions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using FunctionStorages;
+    using Newtonsoft.Json;
+
     /// <inheritdoc />
     /// <summary>
     /// Этот класс используется для работы с многочленом.
     /// </summary>
     public class Polynomial : Function
     {
+        [JsonProperty]
         private readonly List<double> _coefficients;
+
+        /// <inheritdoc />
+        [JsonConstructor]
+        public Polynomial()
+        {
+            _coefficients = new List<double>();
+        }
+        
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Polynomial"/>.
+        /// </summary>
+        /// <param name="coefficients">Принимает список коэффициентов.</param>
+        public Polynomial(IEnumerable<double> coefficients) => _coefficients = new List<double>(coefficients);
 
         /// <summary>
         /// Переопределение оператора +.
@@ -49,12 +66,7 @@ namespace Task_3.Functions
         /// <param name="p2">Второй многочлен.</param>
         /// <returns>Сравнивает два многочлена, если соотвестующие коэффициенты равны возвращает false, иначе - true.</returns>
         public static bool operator !=(Polynomial p1, Polynomial p2) => !p1.Equals(p2);
-
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Polynomial"/>.
-        /// </summary>
-        /// <param name="coefficients">Принимает список коэффициентов.</param>
-        public Polynomial(IEnumerable<double> coefficients) => _coefficients = coefficients.ToList();
+        
 
         /// <summary>
         /// Сложение двух многочленов.
@@ -177,6 +189,10 @@ namespace Task_3.Functions
         /// <inheritdoc />
         public override double ValueAtPoint(double point) => _coefficients.Select((x, i) => _coefficients[i] * Math.Pow(point, i)).Sum();
 
+        public override void ResolveReferences(IReferenceResolver referenceResolver)
+        {
+        }
+
         /// <inheritdoc />
         public override Function Derivative()
         {
@@ -192,7 +208,7 @@ namespace Task_3.Functions
         /// <inheritdoc />
         public override string ToString()
         {
-            var polynomial = "";
+            var polynomial = string.Empty;
             for (var i = _coefficients.Count - 1; i >= 0; i--)
             {
                 if (i != _coefficients.Count - 1 && _coefficients[i] > 0.0)
@@ -205,7 +221,7 @@ namespace Task_3.Functions
                     polynomial += _coefficients[i] == -1
                         ? "-"
                         : _coefficients[i].ToString();
-                    polynomial += i == 0 && _coefficients[i] == -1 ? "1" : "";
+                    polynomial += i == 0 && _coefficients[i] == -1 ? "1" : string.Empty;
                 }
 
                 if (_coefficients[i] != 0 && i > 0)
@@ -265,6 +281,7 @@ namespace Task_3.Functions
             {
                 lessCoefficients.Add(0.0);
             }
+
             return lessCoefficients.SequenceEqual(moreCoefficients);
         }
     }

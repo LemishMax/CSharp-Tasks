@@ -14,7 +14,11 @@ Ex: Add name Cos
     Add name Polynom x^4-x^2+1
     Add name Sin
     Add Linear name 3x+5
-    Add UnaryMinus name -(Cos)
+    Add UnaryMinus name -(f name2)
+	Add Name af f name2 + f name3
+    Add Name sf f name2 – f name3
+    Add Name u -(name2)
+    Add Name fc name2(name3)
 Типы фунций:
 U – UnaryMinus
 Af – AdditionsOfFunctions
@@ -24,11 +28,6 @@ P – Polynomial (Polynom)
 L – Linear
 Cos - Cos
 Sin – Sin
-Сложные функции:
-Add Name af cos + fc sin(p x^3+2)
-Add Name sf p x^4+1 – l x
-Add Name u -(af cos + sin)
-Add Name fc sin(cos)
 Команда удаления функции из хранилища - Delete Название_функции (Delete name)
 Команда переименования функции - Rename Текущее_название Новое_название (Rename name newname)
 Команда Вычисления производной и добавления новой функции в хранилище - Derivative Название функции (Derivative Name)

@@ -1,12 +1,12 @@
-﻿using Task_3.FunctionStorages;
-
-namespace Task_3.Commands
+﻿namespace Task_3.Commands
 {
+    using FunctionStorages;
+
     /// <inheritdoc />
     /// <summary>
     /// Данный класс управляет методом вычисления значения функции в точке
     /// </summary>
-    public class ValueFunction:ICommand
+    public class ValueFunction : ICommand
     {
         private readonly string _name;
 
@@ -29,14 +29,14 @@ namespace Task_3.Commands
         /// </summary>
         /// <param name="fs">Хранилище функций</param>
         /// <returns>Возвращает результат работы команды</returns>
-        public string Execute(IFunctionStorage fs)
+        public ResultOfCommand Execute(IFunctionStorage fs)
         {
             if (!fs.IsStored(_name))
             {
-                return $"{_name} не найдена";
+                return new ResultOfCommand(false, $"{_name} не найдена");
             }
 
-            return $"Значение {_name} в точке {_point} = {fs.ValueAtThePoint(_name, _point)}";
+            return new ResultOfCommand(true, $"Значение {_name} в точке {_point} = {fs.ValueAtThePoint(_name, _point)}");
         }
     }
 }

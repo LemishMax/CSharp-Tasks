@@ -1,8 +1,8 @@
-﻿using System;
-using Task_3.Functions;
-
-namespace Task_3.FunctionStorages
+﻿namespace Task_3.FunctionStorages
 {
+    using System;
+    using Functions;
+
     /// <summary>
     /// Используется для работы с хранилищами функций
     /// </summary>
@@ -53,5 +53,12 @@ namespace Task_3.FunctionStorages
         /// <param name="name">Название функции</param>
         /// <returns>Хранится ли функция в хранилище</returns>
         bool IsStored(string name);
+
+        /// <summary>
+        /// Возвращает функцию по ее названию
+        /// </summary>
+        /// <param name="name">Название функции</param>
+        /// <returns>Возвращает функцию по ее названию</returns>
+        Function GetFunction(string name);
     }
 }

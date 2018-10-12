@@ -11,7 +11,7 @@ namespace Task_3.Tests.Commands
         public void Execute_AddFunction_FunctionWillBeAdded()
         {
             var fs = new FunctionStorage();
-            var command = new AddInStorage("name",new Cos());
+            var command = new AddInStorage("name", new Cos());
             var res = command.Execute(fs);
             const string expectedResult = "Функция добавлена";
             Assert.AreEqual(expectedResult, res);
@@ -22,7 +22,7 @@ namespace Task_3.Tests.Commands
         {
             var fs = new FunctionStorage();
             var command = new AddInStorage("name", new Cos());
-            fs.Add("name",new Sin());
+            fs.Add("name", new Sin());
             var res = command.Execute(fs);
             const string expectedResult = "name уже используется";
             Assert.AreEqual(expectedResult, res);

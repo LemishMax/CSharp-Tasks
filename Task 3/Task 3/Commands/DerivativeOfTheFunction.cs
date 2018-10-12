@@ -1,7 +1,7 @@
-﻿using Task_3.FunctionStorages;
-
-namespace Task_3.Commands
+﻿namespace Task_3.Commands
 {
+    using FunctionStorages;
+
     /// <inheritdoc />
     /// <summary>
     /// Данный класс управляет методом вычисления производной
@@ -24,16 +24,16 @@ namespace Task_3.Commands
         /// </summary>
         /// <param name="fs">Хранилище функций</param>
         /// <returns>Возвращает результат работы команды</returns>
-        public string Execute(IFunctionStorage fs)
+        public ResultOfCommand Execute(IFunctionStorage fs)
         {
             if (!fs.IsStored(_name))
             {
-                return $"{_name} не найдена";
+                return new ResultOfCommand(false, $"{_name} не найдена");
             }
 
             var res = fs.Derivative(_name);
             fs.Add($"{_name}Derivative", res);
-            return $"Функция добавлена в хранилище.\nПроизводная {_name} = {res}";
+            return new ResultOfCommand(true, $"Функция добавлена в хранилище.\nПроизводная {_name} = {res}");
         }
     }
 }

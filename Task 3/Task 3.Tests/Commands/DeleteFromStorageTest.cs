@@ -15,7 +15,7 @@ namespace Task_3.Tests.Commands
             fs.Add("name", new Cos());
             var res = command.Execute(fs);
             const string expectedResult = "Функция удалена";
-            Assert.AreEqual(expectedResult,res);
+            Assert.AreEqual(expectedResult, res);
         }
 
         [Test]

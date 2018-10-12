@@ -1,7 +1,8 @@
-﻿using System;
-
-namespace Task_3.Functions
+﻿namespace Task_3.Functions
 {
+    using System;
+    using FunctionStorages;
+
     /// <inheritdoc />
     /// <summary>
     /// Этот класс используется для работы с синусом.
@@ -23,12 +24,16 @@ namespace Task_3.Functions
         /// <returns>Возвращает значение синуса в заданной точке.</returns>
         public override double ValueAtPoint(double point) => Math.Sin(point);
 
+        public override void ResolveReferences(IReferenceResolver referenceResolver)
+        {
+        }
+
         /// <inheritdoc />
         /// <summary>
         /// Возращает <see cref="T:System.String" /> которая представляет этот экземпляр.
         /// </summary>
         /// <returns><see cref="T:System.String" /> которая представляет этот экземпляр.</returns>
-        public override string ToString() => "sin";
+        public override string ToString() => "sin(x)";
 
         /// <inheritdoc />
         /// <summary>

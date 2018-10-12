@@ -1,7 +1,7 @@
-﻿using Task_3.FunctionStorages;
-
-namespace Task_3.Commands
+﻿namespace Task_3.Commands
 {
+    using FunctionStorages;
+
     /// <summary>
     /// Данный класс управляет методами хранилища функций
     /// </summary>
@@ -12,6 +12,6 @@ namespace Task_3.Commands
         /// </summary>
         /// <param name="fs">Хранилище функций</param>
         /// <returns>Возвращает результат работы команды</returns>
-        string Execute(IFunctionStorage fs);
+        ResultOfCommand Execute(IFunctionStorage fs);
     }
 }

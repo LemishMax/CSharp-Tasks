@@ -1,13 +1,18 @@
 ﻿namespace Task_3.Functions
 {
+    using System.Runtime.Serialization;
+    using FunctionStorages;
+
     /// <inheritdoc />
     /// <summary>
     /// Класс используется для сложения двух функций
     /// </summary>
-    public class AdditionOfFunctions:Function
+    public class AdditionOfFunctions : Function
     {
-        private readonly Function _leftFunction;
-        private readonly Function _rightFunction;
+        [DataMember]
+        private Function _leftFunction;
+        [DataMember]
+        private Function _rightFunction;
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="AdditionOfFunctions"/>.
@@ -34,6 +39,14 @@
         /// <returns>Возвращает значение функции в заданной точке.</returns>
         public override double ValueAtPoint(double point) =>
             _leftFunction.ValueAtPoint(point) + _rightFunction.ValueAtPoint(point);
+       
+        public override void ResolveReferences(IReferenceResolver referenceResolver)
+        {
+            var leftFunction = (ReferenceFunction)_leftFunction;
+            _leftFunction = referenceResolver.Resolve(leftFunction.GetName());
+            var rightFunction = (ReferenceFunction)_rightFunction;
+            _rightFunction = referenceResolver.Resolve(rightFunction.GetName());
+        }
 
         /// <inheritdoc />
         /// <summary>

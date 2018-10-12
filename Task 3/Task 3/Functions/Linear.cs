@@ -1,14 +1,21 @@
-﻿using System.Globalization;
-
-namespace Task_3.Functions
+﻿namespace Task_3.Functions
 {
+    using System.Globalization;
+    using FunctionStorages;
+    using Newtonsoft.Json;
+
     /// <inheritdoc />
     /// <summary>
     /// Этот класс используется для работы с линейной функцией.
     /// </summary>
     public class Linear : Function
     {
-        private readonly double _k, _b;
+
+        [JsonProperty]
+        private readonly double _k;
+
+        [JsonProperty]
+        private readonly double _b;
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Linear"/>.
@@ -35,9 +42,10 @@ namespace Task_3.Functions
         /// </summary>
         /// <param name="point"></param>
         /// <returns>Возвращает значение лийнейной функции в заданной точке.</returns>
-        public override double ValueAtPoint(double point)
+        public override double ValueAtPoint(double point) => (_k * point) + _b;
+
+        public override void ResolveReferences(IReferenceResolver referenceResolver)
         {
-            return _k * point + _b;
         }
 
         /// <inheritdoc />
@@ -47,11 +55,11 @@ namespace Task_3.Functions
         /// <returns><see cref="T:System.String" /> которая представляет этот экземпляр.</returns>
         public override string ToString()
         {
-            var linear = "";
-            linear += _k == 1 || _k == 0 ? "" : _k.ToString(CultureInfo.InvariantCulture);
-            linear += _k == 0 ? "" : "x";
-            linear += _b == 0 ? "" : _b > 0 && _k != 0 ? "+" + _b : _b.ToString(CultureInfo.InvariantCulture);
-            return linear == "" ? "0" : linear;
+            var linear = string.Empty;
+            linear += _k == 1 || _k == 0 ? string.Empty : _k.ToString(CultureInfo.InvariantCulture);
+            linear += _k == 0 ? string.Empty : "x";
+            linear += _b == 0 ? string.Empty : _b > 0 && _k != 0 ? "+" + _b : _b.ToString(CultureInfo.InvariantCulture);
+            return linear == string.Empty ? "0" : linear;
         }
 
         /// <inheritdoc />
