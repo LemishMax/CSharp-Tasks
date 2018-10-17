@@ -1,6 +1,7 @@
 ﻿namespace Task_3
 {
-    using FunctionStorages;
+    using System.Collections.Generic;
+    using Functions;
     using Newtonsoft.Json;
 
     internal class Serializer
@@ -15,13 +16,13 @@
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             };
 
-        public IFunctionStorage Deserialize(string s)
+        public Dictionary<string, Function> Deserialize(string s)
         {
             return s.Length == 0
-                ? new FunctionStorage()
-                : JsonConvert.DeserializeObject<FunctionStorage>(s, _settings);
+                ? new Dictionary<string, Function>()
+                : JsonConvert.DeserializeObject<Dictionary<string, Function>>(s, _settings);
         }
 
-        public string Serialize(IFunctionStorage functionStorage) => JsonConvert.SerializeObject(functionStorage, _settings);
+        public string Serialize(Dictionary<string, Function> functionStorage) => JsonConvert.SerializeObject(functionStorage, _settings);
     }
 }

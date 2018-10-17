@@ -1,8 +1,12 @@
 ﻿namespace Task_3
 {
     using System;
+    using System.Configuration;
     using System.IO;
-    using Commands;
+    using Castle.MicroKernel.Registration;
+    using Castle.Windsor;
+    using CommandBuilders;
+    using FunctionBuilders;
     using FunctionStorages;
 
     /// <summary>
@@ -10,7 +14,7 @@
     /// </summary>
     public class Program
     {
-        private const string Json = @"FunctionsStorage.json";
+        private static readonly string Json = ConfigurationManager.AppSettings["Json"];
 
         private static void Main()
         {
@@ -18,25 +22,39 @@
             "Чтобы сохранить функции введите ‘s’;\n" +
             "Чтобы завершить программу с сохранением введите ‘exit’;");
             Logger.InitLogger();
+
             var serializer = new Serializer();
             if (!File.Exists(Json))
             {
                 File.Create(Json);
             }
 
-            var functionStorage = new FunctionStorageDecorator(serializer.Deserialize(File.ReadAllText(Json)));
+            var container = new WindsorContainer();
 
-            var interpreter = new Interpreter(functionStorage, new BuildersOfCommandsForFunctionStorage().GetBuilders());
+            container.Register(Component.For<BaseBuildersOfFunctions>().ImplementedBy<BuildersOfFunctions>());
+            var buildersOfFunctions = container.Resolve<BaseBuildersOfFunctions>();
 
+            container.Register(Component.For<IFunctionStorage>().ImplementedBy<FunctionStorageDecorator>().DynamicParameters(
+                (r, k) =>
+                {
+                    k["functionStorage"] = new FunctionStorage(serializer.Deserialize(File.ReadAllText(Json)));
+                }));
+            var buildersOfCommands = container.Resolve<BuildersOfCommands>().GetBuilders();
+
+            container.Register(Component.For<BuildersOfCommands>().ImplementedBy<BuildersOfCommandsForFunctionStorage>()
+                .DynamicParameters((r, k) => { k["buildersOfFunctions"] = buildersOfFunctions.GetFunctions(); }));
+            var functionStorage = container.Resolve<IFunctionStorage>();
+
+            var interpreter = new Interpreter(functionStorage, buildersOfCommands);
             var command = string.Empty;
             new System.Threading.Timer(
-               e => { File.WriteAllText(Json, serializer.Serialize(functionStorage.GetFunctionStorage())); }, null, TimeSpan.Zero, TimeSpan.FromMinutes(3));
+               e => { File.WriteAllText(Json, serializer.Serialize(functionStorage.GetStorage())); }, null, TimeSpan.Zero, TimeSpan.FromMinutes(3));
             while (command != "exit")
             {
                 command = Console.ReadLine();
                 if (command == "s")
                 {
-                    File.WriteAllText(Json, serializer.Serialize(functionStorage.GetFunctionStorage()));
+                    File.WriteAllText(Json, serializer.Serialize(functionStorage.GetStorage()));
                     Console.WriteLine("Функции сохранены");
                 }
                 else
@@ -45,7 +63,7 @@
                 }
             }
 
-            File.WriteAllText(Json, serializer.Serialize(functionStorage.GetFunctionStorage()));
+            File.WriteAllText(Json, serializer.Serialize(functionStorage.GetStorage()));
         }
     }
 }

@@ -37,6 +37,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.2.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.4.1.1\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -44,27 +50,33 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandBuilders\AddInStorageBuilder.cs" />
+    <Compile Include="CommandBuilders\BuildersOfCommands.cs" />
     <Compile Include="CommandBuilders\CommandBuilder.cs" />
     <Compile Include="CommandBuilders\DeleteFromStorageBuilder.cs" />
     <Compile Include="CommandBuilders\DerivativeOfTheFunctionBuilder.cs" />
     <Compile Include="CommandBuilders\RenameFunctionBuilder.cs" />
     <Compile Include="CommandBuilders\ValueFunctionBuilder.cs" />
     <Compile Include="Commands\AddInStorage.cs" />
-    <Compile Include="Commands\BuildersOfCommandsForFunctionStorage.cs" />
+    <Compile Include="CommandBuilders\BuildersOfCommandsForFunctionStorage.cs" />
     <Compile Include="Commands\DeleteFromStorage.cs" />
     <Compile Include="Commands\DerivativeOfTheFunction.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\RenameFunction.cs" />
     <Compile Include="Commands\ResultOfCommand.cs" />
     <Compile Include="FunctionBuilders\AdditionOfFunctionsBuilder.cs" />
+    <Compile Include="FunctionBuilders\BaseBuildersOfFunctions.cs" />
+    <Compile Include="FunctionBuilders\BuildersOfFunctions.cs" />
     <Compile Include="FunctionBuilders\FunctionCompositionBuilder.cs" />
     <Compile Include="FunctionBuilders\ReferenceFunctionBuilder.cs" />
     <Compile Include="FunctionBuilders\SubtractionOfFunctionsBuilder.cs" />

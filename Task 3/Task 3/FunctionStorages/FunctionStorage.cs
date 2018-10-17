@@ -9,10 +9,20 @@
     /// <summary>
     /// Этот класс работает с хранилищем функций
     /// </summary>
+    [Serializable]
     public class FunctionStorage : IFunctionStorage
     {
         [JsonProperty]
         private readonly Dictionary<string, Function> _functions = new Dictionary<string, Function>();
+
+        public FunctionStorage()
+        {
+        }
+
+        public FunctionStorage(Dictionary<string, Function> functions)
+        {
+            _functions = functions;
+        }
 
         /// <inheritdoc />
         /// <summary>
@@ -31,7 +41,6 @@
             _functions.Add(name, func);
         }
 
-
         /// <inheritdoc />
         /// <summary>
         /// Удаляет функцию из хранилища
@@ -47,7 +56,6 @@
 
             _functions.Remove(name);
         }
-
 
         /// <inheritdoc />
         /// <summary>
@@ -71,7 +79,6 @@
             _functions.Add(newName, _functions[name]);
             _functions.Remove(name);
         }
-
 
         /// <inheritdoc />
         /// <summary>
@@ -101,7 +108,6 @@
 
             return _functions[name].Derivative();
         }
-        
 
         /// <inheritdoc />
         /// <summary>
@@ -129,5 +135,7 @@
 
             return _functions[name];
         }
+
+        public Dictionary<string, Function> GetStorage() => _functions;
     }
 }

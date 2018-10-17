@@ -1,13 +1,16 @@
 ﻿namespace Task_3.FunctionStorages
 {
+    using System;
+    using System.Collections.Generic;
     using Functions;
     using Newtonsoft.Json;
 
+    [Serializable]
     public class FunctionStorageDecorator : IFunctionStorage
     {
-        [JsonProperty]
-        private readonly IFunctionStorage _functionStorage;
+        [JsonProperty] private readonly IFunctionStorage _functionStorage;
 
+        [JsonConstructor]
         public FunctionStorageDecorator(IFunctionStorage functionStorage)
         {
             _functionStorage = functionStorage;
@@ -55,6 +58,6 @@
             return _functionStorage.GetFunction(name);
         }
 
-        public IFunctionStorage GetFunctionStorage() => _functionStorage;
+        public Dictionary<string, Function> GetStorage() => _functionStorage.GetStorage();
     }
 }

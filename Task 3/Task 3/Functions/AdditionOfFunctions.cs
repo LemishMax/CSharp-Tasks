@@ -1,7 +1,7 @@
 ﻿namespace Task_3.Functions
 {
-    using System.Runtime.Serialization;
     using FunctionStorages;
+    using Newtonsoft.Json;
 
     /// <inheritdoc />
     /// <summary>
@@ -9,9 +9,9 @@
     /// </summary>
     public class AdditionOfFunctions : Function
     {
-        [DataMember]
+        [JsonProperty]
         private Function _leftFunction;
-        [DataMember]
+        [JsonProperty]
         private Function _rightFunction;
 
         /// <summary>

@@ -7,7 +7,6 @@
     /// <summary>
     /// Этот класс используется для работы с косинусом.
     /// </summary>
-    
     public class Cos : Function
     {
         /// <inheritdoc />

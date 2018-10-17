@@ -10,7 +10,6 @@
     /// </summary>
     public class Linear : Function
     {
-
         [JsonProperty]
         private readonly double _k;
 

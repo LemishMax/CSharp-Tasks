@@ -10,18 +10,12 @@
 
     internal class AddInStorageBuilder : CommandBuilder
     {
-        private readonly Dictionary<string, FunctionBuilder> _functionBuilders = new Dictionary<string, FunctionBuilder>
-        { 
-            { "^[U|u](naryMinus)?", new UnaryMinusOfFunctionBuilder() },
-            { "^[F|f](unction)?[C|c](omposition)?", new FunctionCompositionBuilder() },
-            { "^[A|a](dditionOf)?[F|f](unction)?", new AdditionOfFunctionsBuilder() },
-            { "^[S|s](ubstringOf)?[F|f](unction)?", new SubtractionOfFunctionsBuilder() },
-            { "^[F|f](unction)?", new ReferenceFunctionBuilder() },
-            { "^[P|p](olynom(ial)?)?", new PolynomialBuilder() },
-            { "^[L|l](inear)?", new LinearBuilder() },
-            { "[S|s]in$", new SinBuilder() },
-            { "[C|c]os$", new CosBuilder() }
-        };
+        private readonly Dictionary<string, FunctionBuilder> _builders;
+
+        public AddInStorageBuilder(Dictionary<string, FunctionBuilder> builders)
+        {
+            _builders = builders;
+        }
 
         public override ICommand Build(string line)
         {
@@ -42,7 +36,7 @@
         {
             try
             {
-                var builder = _functionBuilders.FirstOrDefault(x => Regex.IsMatch(line, x.Key)).Value;
+                var builder = _builders.FirstOrDefault(x => Regex.IsMatch(line, x.Key)).Value;
                 return builder.Build(line.Substring(line.IndexOf(' ') + 1));
             }
             catch (Exception)

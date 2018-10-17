@@ -18,11 +18,11 @@
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Interpreter"/>.
         /// </summary>
-        /// <param name="fs">Хранилище функций</param>
+        /// <param name="functionStorage">Хранилище функций</param>
         /// <param name="commands">Список команд взаимодействия с хранилищем</param>
-        public Interpreter(IFunctionStorage fs, Dictionary<string, CommandBuilder> commands)
+        public Interpreter(IFunctionStorage functionStorage, Dictionary<string, CommandBuilder> commands)
         {
-            _functionStorage = fs;
+            _functionStorage = functionStorage;
             _commands = commands;
         }
 

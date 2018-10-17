@@ -1,6 +1,7 @@
 ﻿namespace Task_3.FunctionStorages
 {
     using System;
+    using System.Collections.Generic;
     using Functions;
 
     /// <summary>
@@ -60,5 +61,7 @@
         /// <param name="name">Название функции</param>
         /// <returns>Возвращает функцию по ее названию</returns>
         Function GetFunction(string name);
+
+        Dictionary<string, Function> GetStorage();
     }
 }
