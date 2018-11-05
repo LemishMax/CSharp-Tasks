@@ -60,6 +60,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Runner.cs" />
     <Compile Include="CommandBuilders\AddInStorageBuilder.cs" />
     <Compile Include="CommandBuilders\BuildersOfCommands.cs" />
     <Compile Include="CommandBuilders\CommandBuilder.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Functions\Sin.cs" />
     <Compile Include="Functions\Polynomial.cs" />
     <Compile Include="Interpreter.cs" />
+    <Compile Include="IoCInstaller.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

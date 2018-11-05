@@ -20,5 +20,6 @@ namespace Task_3.FunctionBuilders
         };
 
         public override Dictionary<string, FunctionBuilder> GetFunctions() => _functions;
+        
     }
 }

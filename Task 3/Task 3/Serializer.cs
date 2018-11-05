@@ -4,7 +4,7 @@
     using Functions;
     using Newtonsoft.Json;
 
-    internal class Serializer
+    public class Serializer
     {
         private readonly JsonSerializerSettings _settings =
             new JsonSerializerSettings
